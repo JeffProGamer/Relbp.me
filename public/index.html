@@ -1,123 +1,237 @@
-<body class="lbp logged-out homepage" data-controller="home" data-ext-base-url="https://relbp-me.onrender.com" data-context-path=""> 
-              
-    <a href="#" class="navigation-hotspot cover"></a>
-    
-    <div class="bgr">
-<nav>
-    <div class="navbar primary hidden-lg hidden-md hidden-sm" role="navigation">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>relbp.me</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/styles/main.css">
+  <style>
+    /* Basic override styling (modify as needed) */
+    body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; color:#333; }
+    nav .navbar { background:#111; }
+    nav .navbar ul { list-style:none; padding:0; margin:0; display:flex; }
+    nav .navbar li { padding:1rem; }
+    nav .navbar a { color:#fff; text-decoration:none; }
+    .container { padding:2rem; }
+    .card { background:#fff; margin:1rem 0; padding:1rem; border-radius:8px; }
+    .sidebar-offcanvas { position:fixed; top:0; left:-300px; width:260px; height:100%; background:#222; overflow-y:auto; transition:left .3s; }
+    .sidebar-offcanvas.open { left:0; }
+    .sidebar-offcanvas ul.nav li a { color:#fff; display:block; padding:.75rem 1rem; }
+  </style>
+</head>
+<body class="lbp logged-out homepage" data-controller="home" data-ext-base-url="https://relbp-me.onrender.com" data-context-path="">
+
+  <a href="#" class="navigation-hotspot cover"></a>
+  
+  <div class="bgr">
+    <nav>
+      <div class="navbar primary hidden-lg hidden-md hidden-sm" role="navigation">
         <div class="container">
-            <div class="navbar pull-left logo">
-                <a href="https://relbp-me.onrender.com/"></a>
-            </div>           
-            <div class="navbar-header">               
-                <button type="button" class="navbar-toggle navigation-hotspot" data-toggle="offcanvas">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="quick-search btn-group">
-                    <button type="button" class="btn btn-clear dropdown-toggle icon-text search sm" data-toggle="dropdown"></button>
-                    <div class="dropdown-menu">
-                        <div class="search-form" data-stoppropagation="true">
-                            <form method="GET" action="https://relbp-me.onrender.com/search/v" data-submit-on-reset="false" autocomplete="off">	    	
-                                <fieldset>
-                                    <div class="input-group">
-                                        <input type="text" name="q" class="search-input form-control" value="" placeholder="Quick search" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Quick search'">
-                                        <span class="input-group-btn">
-                                            <button class="reset" type="reset" value="" style="display: none;"></button>
-                                            <button type="submit" class="btn btn-bright-green icon-text sm search search-submit"></button>
-                                        </span>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>    
-                    </div>
-                </div>    
-                <div class="autopilot">
-                    <button class="btn btn-clear icon-img icon-content sm playworld disabled" href="#autopilotmodalsignedout">Autopilot</button>
+          <div class="navbar pull-left logo">
+            <a href="/" data-link></a>
+          </div>
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle navigation-hotspot" onclick="toggleSidebar()">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+            <div class="quick-search btn-group">
+              <button type="button" class="btn btn-clear dropdown-toggle icon-text search sm" onclick="openSearch(event)"></button>
+              <div class="dropdown-menu" style="display:none;" id="search-dropdown">
+                <div class="search-form" data-stoppropagation="true">
+                  <form method="GET" action="/search/v" autocomplete="off" onsubmit="return onSearch(event)">
+                    <fieldset>
+                      <div class="input-group">
+                        <input type="text" name="q" class="search-input form-control" placeholder="Quick search">
+                        <span class="input-group-btn">
+                          <button class="reset" type="reset" style="display:none;"></button>
+                          <button type="submit" class="btn btn-bright-green icon-text sm search search-submit"></button>
+                        </span>
+                      </div>
+                    </fieldset>
+                  </form>
                 </div>
-            </div>                  
+              </div>
+            </div>
+            <div class="autopilot">
+              <button class="btn btn-clear icon-img icon-content sm playworld disabled" href="#autopilotmodalsignedout">Autopilot</button>
+            </div>
+          </div>
         </div>
-    </div>
-    <div class="secondary-wrapper hidden-xs">
-        <div class="navbar secondary not-homepage container" role="navigation">  	                                 
-            <ul class="nav navbar-nav"> 
-                <li id="home-link" class="logo">
-                    <a href="https://relbp-me.onrender.com/" class="nav-link">Home</a>
-                </li>
-                <li id="profile-link">
-                    <div class="autopilot hidden-xs">
-                        <button class="btn btn-clear icon-img icon-content sm playworld disabled" href="#autopilotmodalsignedout">Autopilot</button>
+      </div>
+      <div class="secondary-wrapper hidden-xs">
+        <div class="navbar secondary not-homepage container" role="navigation">
+          <ul class="nav navbar-nav">
+            <li id="home-link" class="logo"><a href="/" data-link class="nav-link">Home</a></li>
+            <li id="profile-link">
+              <div class="autopilot hidden-xs"><button class="btn btn-clear icon-img icon-content sm playworld disabled">Autopilot</button></div>
+              <div id="signin-link"><a class="btn btn-bright-green icon-img signin sm" href="https://auth.lbp.me/auth/signin?r=https://relbp-me.onrender.com/welcome/" title="Sign in with PSN"></a></div>
+              <a class="signed-out nav-link" href="https://auth.lbp.me/auth/signin?r=https://relbp-me.onrender.com/welcome/">My profile</a>
+            </li>
+            <li id="videos-link"><a href="/videos" data-link class="nav-link">Videos</a></li>
+            <li id="levels-link"><a href="/levels" data-link class="nav-link">Levels</a></li>
+            <li id="community-link"><a href="/community" data-link class="nav-link">Community</a></li>
+            <li id="tutorial-link"><a href="/videos/tutorial" data-link class="nav-link">Tutorials</a></li>
+          </ul>
+          <div class="quick-search btn-group hidden-xs">
+            <button type="button" class="btn btn-clear dropdown-toggle icon-text search sm" onclick="openSearch(event)"></button>
+            <div class="dropdown-menu" style="display:none;" id="search-dropdown-2">
+              <div class="search-form" data-stoppropagation="true">
+                <form method="GET" action="/search/v" autocomplete="off" onsubmit="return onSearch(event)">
+                  <fieldset>
+                    <div class="input-group">
+                      <input type="text" name="q" class="search-input form-control" placeholder="Quick search">
+                      <span class="input-group-btn">
+                        <button class="reset" type="reset" style="display:none;"></button>
+                        <button type="submit" class="btn btn-bright-green icon-text sm search search-submit"></button>
+                      </span>
                     </div>
-                    <div id="signin-link">
-                        <a class="btn btn-bright-green icon-img signin sm" href="https://auth.lbp.me:443/auth/signin?r=https://relbp-me.onrender.com:443/welcome/" title="Sign in with PSN"></a>
-                    </div>        
-                    <a class="signed-out nav-link" href="https://auth.lbp.me:443/auth/signin?r=https://relbp-me.onrender.com:443/welcome/">My profile</a> 
-                </li>             
-                <li id="videos-link">
-                    <a href="https://relbp-me.onrender.com/videos" class="nav-link">Videos</a>
-                </li>
-                <li id="levels-link">
-                    <a href="https://relbp-me.onrender.com/levels" class="nav-link">Levels</a>
-                </li>
-                <li id="community-link">
-                    <a href="https://relbp-me.onrender.com/community" class="nav-link">Community</a>            	
-                </li>            
-                <li id="tutorial-link">
-                    <a href="https://relbp-me.onrender.com/videos/tutorial" class="nav-link">Tutorials</a>
-                </li>  
-            </ul>    
-            <div class="quick-search btn-group hidden-xs">
-                <button type="button" class="btn btn-clear dropdown-toggle icon-text search sm" data-toggle="dropdown"></button>
-                <div class="dropdown-menu">
-                    <div class="search-form" data-stoppropagation="true">
-                        <form method="GET" action="https://relbp-me.onrender.com/search/v" data-submit-on-reset="false" autocomplete="off">	    	
-                            <fieldset>
-                                <div class="input-group">
-                                    <input type="text" name="q" class="search-input form-control" value="" placeholder="Quick search" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Quick search'">
-                                    <span class="input-group-btn">
-                                        <button class="reset" type="reset" value="" style="display: none;"></button>
-                                        <button type="submit" class="btn btn-bright-green icon-text sm search search-submit"></button>
-                                    </span>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>    
-                </div>
-            </div>    
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-</nav>
+      </div>
+    </nav>
+  </div>
 
-<!-- Many elements omitted for brevity -->
-
-<div class="row">
-    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 col-lg-offset-1 col-md-offset-1">
-        <a href="https://relbp-me.onrender.com/levels" class="btn btn-bright-green icon-text icon-content world lg">Explore LBP.me</a>
-    </div>                
-    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
-        <a href="https://auth.lbp.me:443/auth/signin?r=https://relbp-me.onrender.com:443/welcome/" class="btn btn-bright-green icon-img icon-content signin lg">Sign in with PSN</a>
-    </div>
-</div>
-
-<!-- Sidebar -->
-<div class="sidebar-offcanvas transition-menu-out" id="sidebar" role="navigation">
+  <div class="sidebar-offcanvas" id="sidebar">
     <div class="pull-left width100 clear">
-        <ul class="nav top-oc">
-            <li class="col-sm-12 col-xs-12 home-link"><a href="https://relbp-me.onrender.com/">Home</a></li>
-            <li class="col-sm-12 col-xs-12 community-link">
-                <a href="https://relbp-me.onrender.com/community" class="nav-link">Community</a>
-            </li>	                
-            <li class="col-sm-12 col-xs-12 levels-link"><a href="https://relbp-me.onrender.com/levels">Levels</a></li>
-            <li class="col-sm-12 col-xs-12 video-link"><a href="https://relbp-me.onrender.com/videos">Videos</a></li>
-            <li class="col-sm-12 col-xs-12 tutorial-link"><a href="https://relbp-me.onrender.com/videos/tutorial" class="nav-link">Tutorials</a></li>	                
-        </ul>	
-        <ul class="nav bottom-oc">
-            <li class="signed-out-nav col-sm-6 col-xs-6 signin-link"><a class="btn" id="btn-sign-in" href="https://auth.lbp.me:443/auth/signin?r=https://relbp-me.onrender.com:443/welcome/">Sign in</a></li>  
-            <li class="signed-in-nav col-sm-6 col-xs-6 signout-link"><a class="btn" href="https://auth.lbp.me:443/auth/signout?r=https://relbp-me.onrender.com:80">Sign out</a></li>
-            <li class="signed-in-nav col-sm-6 col-xs-6 signout-link" id="profile-link"><a class="btn" href="https://auth.lbp.me:443/auth/signin?r=https://relbp-me.onrender.com:443/welcome/">My profile</a></li>                	                
-            <li class="signed-out-nav col-sm-6 col-xs-6 lbp-link"><a class="btn" href="http://littlebigplanet.com/">LBP.com</a></li>
-        </ul>
+      <ul class="nav top-oc">
+        <li class="home-link"><a href="/" data-link>Home</a></li>
+        <li class="community-link"><a href="/community" data-link>Community</a></li>
+        <li class="levels-link"><a href="/levels" data-link>Levels</a></li>
+        <li class="video-link"><a href="/videos" data-link>Videos</a></li>
+        <li class="tutorial-link"><a href="/videos/tutorial" data-link>Tutorials</a></li>
+      </ul>
+      <ul class="nav bottom-oc">
+        <li class="signin-link"><a class="btn" id="btn-sign-in" href="https://auth.lbp.me/auth/signin?r=https://relbp-me.onrender.com/welcome/">Sign in</a></li>
+        <li class="signout-link"><a class="btn" href="/signout" data-link>Sign out</a></li>
+        <li class="profile-link"><a class="btn" href="/profile" data-link>My profile</a></li>
+        <li class="lbp-link"><a class="btn" href="http://littlebigplanet.com/">LBP.com</a></li>
+      </ul>
     </div>
-</div>
+  </div>
+
+  <main id="app" class="container">
+    <!-- Dynamic content will load here -->
+  </main>
+
+  <script>
+  const API = 'https://relbp-me.onrender.com/api';
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  function openSearch(e) {
+    const d = e.target.closest('.quick-search').querySelector('.dropdown-menu');
+    d.style.display = d.style.display === 'block' ? 'none' : 'block';
+  }
+
+  function onSearch(e) {
+    e.preventDefault();
+    const q = e.target.q.value;
+    history.pushState(null, null, `/search/v?q=${encodeURIComponent(q)}`);
+    router();
+    return false;
+  }
+
+  const app = document.getElementById('app');
+
+  async function routeHome() {
+    const res = await fetch(`${API}/homepage`);
+    const d = await res.json();
+    app.innerHTML = `<h1>${d.title || 'Welcome'}</h1><p>${d.description||''}</p>`;
+  }
+  async function routeLevels() {
+    const res = await fetch(`${API}/levels`);
+    const d = await res.json();
+    app.innerHTML = `<h1>Levels</h1>` + d.map(l=>`<div class="card"><h3><a href="/l/${l.id}" data-link>${l.name}</a></h3><p>${l.summary}</p></div>`).join('');
+  }
+  async function routeVideos() {
+    const res = await fetch(`${API}/videos`);
+    const d = await res.json();
+    app.innerHTML = `<h1>Videos</h1>` + d.map(v=>`<div class="card"><h3><a href="/v/${v.id}" data-link>${v.title}</a></h3><p>${v.description}</p></div>`).join('');
+  }
+  async function routeTutorials() {
+    const res = await fetch(`${API}/videos/tutorial`);
+    const d = await res.json();
+    app.innerHTML = `<h1>Tutorials</h1>` + d.map(v=>`<div class="card"><h3>${v.title}</h3><p>${v.description}</p></div>`).join('');
+  }
+  async function routeCommunity() {
+    const res = await fetch(`${API}/community`);
+    const d = await res.json();
+    app.innerHTML = `<h1>Community</h1>` + d.map(c=>`<div class="card"><h3>${c.name}</h3><p>${c.description}</p></div>`).join('');
+  }
+  async function routeUser(username) {
+    const res = await fetch(`${API}/users/${username}`);
+    const u = await res.json();
+    app.innerHTML = `<h1>${u.username}</h1><p>${u.bio||''}</p>`;
+  }
+  async function routeVideo(id) {
+    const res = await fetch(`${API}/videos/${id}`);
+    const v = await res.json();
+    app.innerHTML = `<h1>${v.title}</h1><p>${v.description}</p>`;
+  }
+  async function routeLevel(id) {
+    const res = await fetch(`${API}/levels/${id}`);
+    const l = await res.json();
+    app.innerHTML = `<h1>${l.name}</h1><p>${l.description}</p>`;
+  }
+  async function routeProfile() {
+    const res = await fetch(`${API}/user/session`, {credentials:'include'});
+    const u = await res.json();
+    if(u.loggedIn) {
+      app.innerHTML = `<h1>${u.username}</h1><p>Welcome back!</p>`;
+    } else {
+      app.innerHTML = `<p>Not signed in. <a href="https://auth.lbp.me/auth/signin?r=https://relbp-me.onrender.com/welcome/">Sign in</a></p>`;
+    }
+  }
+  async function routeSearch(type, q) {
+    const tab = type==='u'?'users': type==='l'?'levels':'videos';
+    const res = await fetch(`${API}/search/${type}?q=${encodeURIComponent(q)}`);
+    const d = await res.json();
+    app.innerHTML = `<h1>Search ${tab} for "${q}"</h1>` + d.map(i=>`<div class="card"><h3>${i.username||i.name||i.title}</h3></div>`).join('');
+  }
+  async function routeWelcome() {
+    app.innerHTML = `<h1>Welcome!</h1><p>You just signed in.</p>`;
+  }
+
+  function router() {
+    const path = location.pathname;
+    const qs = location.search;
+    if(path==='/'||path==='') return routeHome();
+    if(path === '/levels') return routeLevels();
+    if(path === '/videos') return routeVideos();
+    if(path === '/videos/tutorial') return routeTutorials();
+    if(path === '/community') return routeCommunity();
+    if(path === '/profile') return routeProfile();
+    if(path === '/welcome') return routeWelcome();
+    let m;
+    if(m = path.match(/^\/u\/([^\/]+)$/)) return routeUser(m[1]);
+    if(m = path.match(/^\/v\/([^\/]+)$/)) return routeVideo(m[1]);
+    if(m = path.match(/^\/l\/([^\/]+)$/)) return routeLevel(m[1]);
+    if(m = path.match(/^\/search\/([luv])/) && qs.match(/q=([^&]+)/)) {
+      return routeSearch(m[1], decodeURIComponent(qs.split('q=')[1]));
+    }
+    app.innerHTML = `<h1>404 Not Found</h1>`;
+  }
+
+  document.body.addEventListener('click', e => {
+    const a = e.target.closest('a[data-link]');
+    if(a) {
+      e.preventDefault();
+      history.pushState(null, null, a.getAttribute('href'));
+      router();
+    }
+  });
+
+  window.addEventListener('popstate', router);
+
+  router();
+  </script>
+
+</body>
+</html>
