@@ -5,61 +5,118 @@
   <title>relbp.me</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="relbp.me - LittleBigPlanet 3 community for all devices" />
+  <link rel="icon" href="/assets/favicon.ico" />
   <link rel="stylesheet" href="/styles.css" />
-  <script defer src="/main.js"></script>
 </head>
 <body class="lbp logged-out">
-  <!-- Video Section -->
-  <div class="video-frame" style="display: <%= showVideo ? 'block' : 'none' %>;">
-    <iframe onload="this.parentNode.classList.add('active')" src="https://www.youtube.com/embed/qovNaHl-Ko4?autoplay=1&mute=1&loop=1&playlist=qovNaHl-Ko4&controls=0" allow="autoplay"></iframe>
-    <img src="/assets/fallback.jpg" alt="LittleBigPlanet Fallback">
+
+  <!-- Video Background -->
+  <div class="video-frame <%= showVideo ? 'active' : '' %>" style="display: <%= showVideo ? 'block' : 'none' %>;">
+    <iframe
+      onload="this.parentNode.classList.add('active')"
+      src="https://www.youtube.com/embed/qovNaHl-Ko4?autoplay=1&mute=1&loop=1&playlist=qovNaHl-Ko4&controls=0"
+      allow="autoplay">
+    </iframe>
+    <img src="/assets/fallback.jpg" alt="LittleBigPlanet Fallback" />
   </div>
 
-  <!-- Sidebar Toggle Button -->
+  <!-- Sidebar toggle for mobile -->
   <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
 
-  <!-- Navigation Bar -->
-  <nav>
-    <div class="navbar primary" role="navigation">
-      <div class="container">
-        <div class="navbar pull-left logo">
-          <a href="/" data-link><img src="/assets/logo.svg" alt="relbp.me Logo"></a>
-        </div>
-        <div class="navbar pull-right">
-          <ul class="nav">
-            <li><a href="/about" data-link>About</a></li>
+  <!-- Sidebar navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-content">
+      <a href="/" data-link><img class="sidebar-logo" src="/assets/logo.png" alt="relbp.me" /></a>
+      <nav class="sidebar-nav">
+        <a href="/levels" data-link>Levels</a>
+        <a href="/videos" data-link>Videos</a>
+        <a href="/community" data-link>Community</a>
+        <a href="/create-level" data-link>Create</a>
+        <a href="/signin" data-link>Sign In</a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="https://discord.com/invite/lbpunion" target="_blank">💬 Discord</a><br />
+        <a href="https://github.com/lbpunion" target="_blank">🌐 GitHub</a><br />
+        <a href="mailto:contact@relbp.me">📧 Email</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main content container -->
+  <div class="bgr">
+    <!-- Header Navigation Bar -->
+    <nav>
+      <div class="navbar primary" role="navigation">
+        <div class="container">
+          <div class="navbar pull-left logo">
+            <a href="/" data-link><img src="/assets/logo.png" alt="relbp.me logo" /></a>
+          </div>
+          <ul class="nav pull-left">
+            <li><a href="/levels" data-link>Levels</a></li>
+            <li><a href="/videos" data-link>Videos</a></li>
             <li><a href="/community" data-link>Community</a></li>
-            <li><a href="/contact" data-link>Contact</a></li>
+          </ul>
+          <ul class="nav pull-right">
+            <li><a href="/signin" data-link>Sign In</a></li>
+            <li><a href="/create-level" data-link>Create</a></li>
           </ul>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <!-- Hero Section -->
-  <header class="hero">
-    <div class="container">
-      <h1>Welcome to relbp.me</h1>
-      <p>Your ultimate LittleBigPlanet 3 community hub</p>
-      <a href="/join" class="btn">Join the Community</a>
-    </div>
-  </header>
+    <!-- Dynamic server-rendered content -->
+    <main id="main-content" class="page-container">
+      <%- content %>
+    </main>
 
-  <!-- About Section -->
-  <section class="about">
-    <div class="container">
-      <h2>About Us</h2>
-      <p>relbp.me is a community-driven platform dedicated to LittleBigPlanet 3 fans. Whether you're a creator, player, or enthusiast, you'll find a place here.</p>
-    </div>
-  </section>
+    <!-- Site footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-columns">
+          <div>
+            <strong>relbp.me</strong><br />
+            A community tribute to LittleBigPlanet. Not affiliated with Sony or Media Molecule.
+          </div>
+          <div>
+            <strong>Links</strong><br />
+            <a href="https://discord.com/invite/lbpunion" target="_blank">Discord</a><br />
+            <a href="https://github.com/lbpunion" target="_blank">GitHub</a><br />
+            <a href="mailto:contact@relbp.me">Email Us</a>
+          </div>
+          <div>
+            <strong>Status</strong><br />
+            <span id="status-indicator">Checking server...</span><br />
+            <small>&copy; <%= new Date().getFullYear() %> relbp.me</small>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 relbp.me | All rights reserved</p>
-    </div>
-  </footer>
+  <!-- Scripts -->
+  <script src="/main.js"></script>
+  <script>
+    function toggleSidebar() {
+      document.body.classList.toggle('sidebar-open');
+    }
+
+    // Update server status if available from SSR
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/api/server-status')
+        .then(res => res.json())
+        .then(data => {
+          const indicator = document.getElementById('status-indicator');
+          if (data.beacon.status === 'Connected' || data.beacon.status === 'Online') {
+            indicator.innerHTML = `🟢 Online - ${data.beacon.players} players, ${data.beacon.levels} levels`;
+          } else {
+            indicator.innerHTML = '🔴 Beacon Offline';
+          }
+        })
+        .catch(() => {
+          const indicator = document.getElementById('status-indicator');
+          indicator.innerText = '⚠️ Unable to fetch status';
+        });
+    });
+  </script>
 </body>
 </html>
-
-
