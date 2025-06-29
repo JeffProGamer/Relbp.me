@@ -1,11 +1,23 @@
 {
   "name": "relbp-me",
   "version": "1.0.0",
+  "description": "A tribute to lbp.me for the LittleBigPlanet community",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "cors": "^2.8.5"
-  }
+    "node-fetch": "^3.3.2",
+    "sanitize-html": "^2.12.1"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=16"
+  },
+  "keywords": ["lbp", "littlebigplanet", "lbpunion", "relbp", "lbp.me", "fan project"],
+  "author": "JeffProGamer TheYoutuber",
+  "license": "MIT"
 }
