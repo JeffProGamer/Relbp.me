@@ -1,1 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>relbp.me</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="relbp.me - LittleBigPlanet 3 community for all devices" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="lbp logged-out">
+  <!-- Background Video -->
+  <div class="video-frame <%= showVideo ? 'active' : '' %>" style="display: <%= showVideo ? 'block' : 'none' %>;">
+    <iframe
+      onload="this.parentNode.classList.add('active')"
+      src="https://www.youtube.com/embed/qovNaHl-Ko4?autoplay=1&mute=1&loop=1&playlist=qovNaHl-Ko4&controls=0"
+      allow="autoplay">
+    </iframe>
+    <img src="/assets/fallback.jpg" alt="LittleBigPlanet Fallback">
+  </div>
+
+  <!-- Sidebar toggle -->
+  <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
+
+  <!-- Background wrapper -->
+  <div class="bgr">
+    <!-- Navigation -->
+    <nav>
+      <div class="navbar primary" role="navigation">
+        <div class="container">
+          <div class="navbar pull-left logo">
+            <a href="/" data-link><img src="/assets/logo.png" alt="relbp.me logo" /></a>
+          </div>
+          <ul class="nav pull-left">
+            <li><a href="/levels" data-link>Levels</a></li>
+            <li><a href="/videos" data-link>Videos</a></li>
+            <li><a href="/community" data-link>Community</a></li>
+          </ul>
+          <ul class="nav pull-right">
+            <li><a href="/signin" data-link>Sign In</a></li>
+            <li><a href="/create-level" data-link>Create</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Dynamic Page Content -->
+    <main id="main-content">
+      <%- content %>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p>© <%= new Date().getFullYear() %> relbp.me. Not affiliated with Sony or Media Molecule.</p>
+        <p><a href="https://discord.com/invite/lbpunion" target="_blank">Join our Discord</a></p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/main.js"></script>
+  <script>
+    function toggleSidebar() {
+      document.body.classList.toggle('sidebar-open');
+    }
+  </script>
+</body>
+</html>
 
