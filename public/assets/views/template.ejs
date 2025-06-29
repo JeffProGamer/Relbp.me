@@ -6,64 +6,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="relbp.me - LittleBigPlanet 3 community for all devices" />
   <link rel="stylesheet" href="/styles.css" />
+  <script defer src="/main.js"></script>
 </head>
 <body class="lbp logged-out">
-  <!-- Background Video -->
-  <div class="video-frame <%= showVideo ? 'active' : '' %>" style="display: <%= showVideo ? 'block' : 'none' %>;">
-    <iframe
-      onload="this.parentNode.classList.add('active')"
-      src="https://www.youtube.com/embed/qovNaHl-Ko4?autoplay=1&mute=1&loop=1&playlist=qovNaHl-Ko4&controls=0"
-      allow="autoplay">
-    </iframe>
+  <!-- Video Section -->
+  <div class="video-frame" style="display: <%= showVideo ? 'block' : 'none' %>;">
+    <iframe onload="this.parentNode.classList.add('active')" src="https://www.youtube.com/embed/qovNaHl-Ko4?autoplay=1&mute=1&loop=1&playlist=qovNaHl-Ko4&controls=0" allow="autoplay"></iframe>
     <img src="/assets/fallback.jpg" alt="LittleBigPlanet Fallback">
   </div>
 
-  <!-- Sidebar toggle -->
+  <!-- Sidebar Toggle Button -->
   <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
 
-  <!-- Background wrapper -->
-  <div class="bgr">
-    <!-- Navigation -->
-    <nav>
-      <div class="navbar primary" role="navigation">
-        <div class="container">
-          <div class="navbar pull-left logo">
-            <a href="/" data-link><img src="/assets/logo.png" alt="relbp.me logo" /></a>
-          </div>
-          <ul class="nav pull-left">
-            <li><a href="/levels" data-link>Levels</a></li>
-            <li><a href="/videos" data-link>Videos</a></li>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="navbar primary" role="navigation">
+      <div class="container">
+        <div class="navbar pull-left logo">
+          <a href="/" data-link><img src="/assets/logo.svg" alt="relbp.me Logo"></a>
+        </div>
+        <div class="navbar pull-right">
+          <ul class="nav">
+            <li><a href="/about" data-link>About</a></li>
             <li><a href="/community" data-link>Community</a></li>
-          </ul>
-          <ul class="nav pull-right">
-            <li><a href="/signin" data-link>Sign In</a></li>
-            <li><a href="/create-level" data-link>Create</a></li>
+            <li><a href="/contact" data-link>Contact</a></li>
           </ul>
         </div>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <!-- Dynamic Page Content -->
-    <main id="main-content">
-      <%- content %>
-    </main>
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <h1>Welcome to relbp.me</h1>
+      <p>Your ultimate LittleBigPlanet 3 community hub</p>
+      <a href="/join" class="btn">Join the Community</a>
+    </div>
+  </header>
 
-    <!-- Footer -->
-    <footer>
-      <div class="container">
-        <p>© <%= new Date().getFullYear() %> relbp.me. Not affiliated with Sony or Media Molecule.</p>
-        <p><a href="https://discord.com/invite/lbpunion" target="_blank">Join our Discord</a></p>
-      </div>
-    </footer>
-  </div>
+  <!-- About Section -->
+  <section class="about">
+    <div class="container">
+      <h2>About Us</h2>
+      <p>relbp.me is a community-driven platform dedicated to LittleBigPlanet 3 fans. Whether you're a creator, player, or enthusiast, you'll find a place here.</p>
+    </div>
+  </section>
 
-  <!-- Scripts -->
-  <script src="/main.js"></script>
-  <script>
-    function toggleSidebar() {
-      document.body.classList.toggle('sidebar-open');
-    }
-  </script>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 relbp.me | All rights reserved</p>
+    </div>
+  </footer>
 </body>
 </html>
+
 
